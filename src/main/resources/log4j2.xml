@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="spring-boot-kafka-log" packages="spring.log">
+  
+   <Appenders>
+       <Kafka name="Kafka" topic="SpringLog">
+           <PatternLayout pattern="%date %message"/>
+           <Property name="bootstrap.servers">localhost:9092</Property>
+       </Kafka>
+       <Async name="Async">
+           <AppenderRef ref="Kafka"/>
+       </Async>
+
+       <Console name="stdout" target="SYSTEM_OUT">
+           <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n"/>
+       </Console>
+
+   </Appenders>
+   
+   
+   <Loggers>
+       <Root level="INFO">
+           <AppenderRef ref="Kafka"/>
+           <AppenderRef ref="stdout"/>
+       </Root>
+       <Logger name="org.apache.kafka" level="WARN" /><!-- avoid recursive logging -->
+   </Loggers>
+</Configuration>
